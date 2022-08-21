@@ -62,7 +62,6 @@ jobs:
             npm install
             npm run test
 
-
 workflows:
   default:
     jobs:
