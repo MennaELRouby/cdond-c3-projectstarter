@@ -17,8 +17,6 @@ commands:
             aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-backend-<<parameters.workflow_id>>
 
-
-
 jobs:
   build-frontend:
     docker:
@@ -138,17 +136,27 @@ jobs:
       - run: 
           name: add back-end ip to ansible inventory
           command: |
-            BACKEND_INSTANCE_ID=$( aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              -- query 'Reservations[].Instances[].InstanceId' --output text)
-              echo $BACKEND_INSTANCE_ID
-              aws ec2 wait instance-status-ok --instance-ids $BACKEND_INSTANCE_ID
-              BACKEND_PUBLICIP_ADDRESS=$( aws ec2 describe-instances \
-                --instance-ids $BACKEND_INSTANCE_ID \ 
+            touch .circle/ansible.inventory.txt
+            echo [web] > .circle/ansible.inventory.txt
+            BACKEND_PUBLICIP_ADDRESS=$( aws ec2 describe-instances \
                 -- query 'Reservations[*].Instances[*].PublicIpAddress' \
+                --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
                  --region us-east-1 --output text)
                  echo $BACKEND_PUBLICIP_ADDRESS >> .circle/ansible.inventory.txt
                  cat .circle/ansible.inventory.txt
+
+          # command: |
+          #   BACKEND_INSTANCE_ID=$( aws ec2 describe-instances \
+          #     --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+          #     -- query 'Reservations[].Instances[].InstanceId' --output text)
+          #     echo $BACKEND_INSTANCE_ID
+          #     aws ec2 wait instance-status-ok --instance-ids $BACKEND_INSTANCE_ID
+          #     BACKEND_PUBLICIP_ADDRESS=$( aws ec2 describe-instances \
+          #       --instance-ids $BACKEND_INSTANCE_ID \ 
+          #       -- query 'Reservations[*].Instances[*].PublicIpAddress' \
+          #        --region us-east-1 --output text)
+          #        echo $BACKEND_PUBLICIP_ADDRESS >> .circle/ansible.inventory.txt
+          #        cat .circle/ansible.inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
