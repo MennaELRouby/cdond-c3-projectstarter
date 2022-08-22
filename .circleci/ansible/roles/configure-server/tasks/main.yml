@@ -13,6 +13,16 @@
   become: yes
   apt:
     autoremove: yes
+
+- name: install node from nodesource
+  shell: |
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && sudo apt-get install -y nodejs
+    
+- name: "Install zip utility."
+  apt:
+    name: [ "zip", "unzip" ]
+    state: latest
+    update_cache: yes
     
 - name: "install dependencies"
   become: yes
@@ -28,13 +38,3 @@
     global: yes
     production: yes
     state: present
-
-- name: install node
-  shell: |
-    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && sudo apt-get install -y nodejs
-- name: "Install zip utility."
-  apt:
-    name: [ "zip", "unzip" ]
-    state: latest
-    update_cache: yes
-
