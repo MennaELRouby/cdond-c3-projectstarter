@@ -136,14 +136,14 @@ jobs:
       - run: 
           name: add back-end ip to ansible inventory
           command: |
-            touch .circle/ansible.inventory.txt
-            echo [web] > .circle/ansible.inventory.txt
+            touch .circleci/ansible/inventory.txt
+            echo [web] > .circleci/ansible/inventory.txt
             BACKEND_PUBLICIP_ADDRESS=$( aws ec2 describe-instances \
                 -- query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
                  --region us-east-1 --output text)
-                 echo $BACKEND_PUBLICIP_ADDRESS >> .circle/ansible.inventory.txt
-                 cat .circle/ansible.inventory.txt
+                 echo $BACKEND_PUBLICIP_ADDRESS >> .circleci/ansible/inventory.txt
+                 cat .circleci/ansible/inventory.txt
 
           # command: |
           #   BACKEND_INSTANCE_ID=$( aws ec2 describe-instances \
