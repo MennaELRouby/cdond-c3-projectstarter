@@ -203,16 +203,17 @@ jobs:
       - image: python:3.8-alpine
     steps:
       - checkout
-      # - install_ansible
+      - install_ansible
+      - install-aws-cli
       - add_ssh_keys:
           fingerprints: ["0d:80:83:8b:f1:c8:8a:34:3a:76:36:69:be:3a:76:37"]
       - attach_workspace:
           at: ~/
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible
-            pip install awscli
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       apk add --update ansible
+      #       pip install awscli
       - run:
           name: Configure server
           command: |
