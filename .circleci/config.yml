@@ -217,7 +217,6 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            ansible web  -m ping  -i inventory.txt -u ubuntu  -vvvv
             ansible-playbook -i inventory.txt configure-server.yml
 
   run-migrations:  
