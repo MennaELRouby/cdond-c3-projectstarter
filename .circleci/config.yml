@@ -260,7 +260,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            cd fronted
+            cd frontend
             npm install
       - run:
           name: Get backend url
@@ -269,7 +269,6 @@ jobs:
             --filters "Name=Tag:Name,Value=Backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text)
-
             echo "API_URL=http://${BACKEND_PUBLIC_IP}:3030" >> frontend/.env
             cat frontend/.env
       - run:
@@ -281,7 +280,32 @@ jobs:
       - destroy_environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert_migrations
- 
+
+  deploy-backend:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - install-aws-cli
+      - install_nodejs
+      - install_ansible
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl nodejs npm ansible zip
+            pip install awscli
+      - add_ssh_keys:
+          fingerprints: ["0d:80:83:8b:f1:c8:8a:34:3a:76:36:69:be:3a:76:37"]
+      - attach_workspace:
+          at: ~/
+      - restore_cache:
+          keys: [backend-deps]
+      - run:
+          name: Install dependencies
+          command: |
+            cd backend
+            npm install
+
 workflows:
   default:
     jobs:
