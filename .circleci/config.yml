@@ -289,11 +289,6 @@ jobs:
       - install-aws-cli
       - install_nodejs
       - install_ansible
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update curl nodejs npm ansible zip
-            pip install awscli
       - add_ssh_keys:
           fingerprints: ["0d:80:83:8b:f1:c8:8a:34:3a:76:36:69:be:3a:76:37"]
       - attach_workspace:
@@ -306,7 +301,7 @@ jobs:
             cd backend
             npm install
       - run:
-          name: Package backend
+          name: deploy backend
           command: |
             cd backend
             npm i
