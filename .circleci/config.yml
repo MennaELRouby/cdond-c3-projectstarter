@@ -46,6 +46,26 @@ commands:
               npm run migration:revert
               fi
 
+  install_nodejs:
+    description: Install Node.js 13
+    steps:
+      - run:
+          name: Install Node.js 13
+          command: |
+            curl fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+            sudo apt-get install -y node.js
+  
+  install_ansible:
+      description: Install Ansible latest
+      steps:
+        - run:
+            name: Install Ansible latest
+            command: |
+              sudo apt update
+              sudo apt install software-properties-common
+              sudo add-apt-repository --yes --update ppa:ansible/ansible
+              sudo apt install ansible
+              sudo apt install ansible -y
 jobs:
   build-frontend:
     docker:
@@ -165,11 +185,9 @@ jobs:
       - run: 
           name: add back-end ip to ansible inventory
           command: |
-            touch .circleci/ansible/inventory.txt
-            echo [web] > .circleci/ansible/inventory.txt
             BACKEND_PUBLICIP_ADDRESS=$( aws ec2 describe-instances \
-                --query 'Reservations[*].Instances[*].PublicIpAddress' \
                 --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+                --query 'Reservations[*].Instances[*].PublicIpAddress' \
                  --region us-east-1 --output text)
                  echo $BACKEND_PUBLICIP_ADDRESS >> .circleci/ansible/inventory.txt
                  cat .circleci/ansible/inventory.txt
@@ -248,7 +266,7 @@ workflows:
           filters:
             branches:
               only: [master]
-    - configure-infrastructure:
-          requires: [deploy-infrastructure]
-    - run-migrations:
-          requires: [configure-infrastructure]
+    # - configure-infrastructure:
+    #       requires: [deploy-infrastructure]
+    # - run-migrations:
+    #       requires: [configure-infrastructure]
