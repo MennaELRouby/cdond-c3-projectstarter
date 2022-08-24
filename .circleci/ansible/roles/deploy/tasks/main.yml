@@ -5,7 +5,7 @@
 
 - name: "upgrade packages"
   apt:
-    upgrade:yes
+    upgrade: yes
     
 - name: "remove dependencies that are no longer required"
   apt: 
