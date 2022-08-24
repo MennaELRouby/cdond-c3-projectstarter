@@ -36,7 +36,7 @@
     
 - name: "Installing Node Dependencies for deply backend on ec2"
   shell: |
-    cd ~/backend-app
+    cd /home/ubuntu/backend_app/backend-app
     npm i
 
 - name: "Check app files"
