@@ -26,13 +26,13 @@
     
 - name: "Creates backend app directory"
   file:
-    path: ~/backend-app
+    path: /home/ubuntu/backend_app
     state: directory
     
 - name: "unarchive backend files to app directory"
   unarchive:
     src: artifact.tar.gz
-    dest: ~/backend-app
+    dest: /home/ubuntu/backend-app
     
 - name: "Installing Node Dependencies for deply backend on ec2"
   shell: |
@@ -42,12 +42,12 @@
 - name: "Check app files"
   shell: |
     export
-    cd ~/backend-app
-    ls -R ~/backend-app
+    cd /home/ubuntu/backend-app
+    ls -R /home/ubuntu/backend-app
     
 - name: "Executing Node app with pm2"
   args:
-    chdir: ~/backend_app/dist
+    chdir: /home/ubuntu/backend_app/dist
   environment:
       ENVIRONMENT: production
       TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
@@ -60,6 +60,7 @@
       TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
       TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
   shell: |
+    pm2 stop default
     pm2 start main.js
   register: execute_node
     
