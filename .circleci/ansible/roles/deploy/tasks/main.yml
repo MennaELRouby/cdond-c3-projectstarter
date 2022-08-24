@@ -24,18 +24,18 @@
     
 - name: "Installing Node Dependencies for deply backend on ec2"
   shell: |
-    cd  ~/backend_app
+    cd ~/backend_app
     npm i
 
 - name: "Check app files"
   shell: |
     export
     cd  ~/backend_app
-    ls -R  ~/backend_app
+    ls -R ~/backend_app
     
 - name: "Executing Node app with pm2"
   args:
-    chdir:  ~/backend_app
+    chdir: ~/backend_app
   environment:
       ENVIRONMENT: production
       TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
@@ -48,7 +48,6 @@
       TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
       TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
   shell: |
-    pm2 stop default
     pm2 start main.js
   register: execute_node
     
