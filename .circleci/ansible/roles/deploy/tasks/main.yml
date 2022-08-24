@@ -35,7 +35,7 @@
     
 - name: "Executing Node app with pm2"
   args:
-    chdir: ~/backend_app
+    chdir: ~/backend_app/dist
   environment:
       ENVIRONMENT: production
       TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
