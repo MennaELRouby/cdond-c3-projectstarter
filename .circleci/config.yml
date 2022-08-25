@@ -320,7 +320,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image:  cimg/base:stable
+      - image: cimg/base:stable 
     steps:
       - install-aws-cli
       - install_nodejs
@@ -333,7 +333,7 @@ jobs:
              --output text)
             export API_URL="http://${BACKEND_PUBLIC_IP}:3030"
             echo "${API_URL}"
-            if curl "$API_URL/api/status" | grep "ok"
+            if curl "{$API_URL}/api/status" | grep "ok"
             then
               exit 0
             else
