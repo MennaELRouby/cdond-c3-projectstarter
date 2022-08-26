@@ -52,7 +52,7 @@ commands:
       - run:
           name: Install Node.js 13
           command: |
-            curl fsSL https://deb.nodesource.com/setup_13.8.0 | sudo -E bash -
+            curl fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
             sudo apt-get install -y node.js
   
   install_ansible:
