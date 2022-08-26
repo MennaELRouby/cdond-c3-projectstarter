@@ -16,7 +16,7 @@
 
 - name: install node from nodesource
   shell: |
-    curl -sL https://deb.nodesource.com/setup_13.8.0 | sudo -E bash - && sudo apt-get install -y nodejs
+    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && sudo apt-get install -y nodejs
     
 - name: "Install zip utility."
   apt:
