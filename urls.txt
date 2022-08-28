@@ -4,7 +4,7 @@ https://github.com/MennaELRouby/cdond-c3-projectstarter
 
 [URL02]
 Public URL for your S3 Bucket:
-
+https://udapeople-2c6afa0.s3.amazonaws.com/index.html
 
 [URL04_SCREENSHOT]
 Backend_app
@@ -13,4 +13,3 @@ http://44.198.229.231:3030/api/status
 [URL05]
 Promethues server
 http://23.20.196.103:9090/targets?search=
-
